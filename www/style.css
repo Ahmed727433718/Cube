@@ -34,3 +34,12 @@ body.go #btnPlay{animation:inUp .6s cubic-bezier(.2,.8,.2,1) .55s backwards}
 body.go #btnSettings{animation:inUp .6s cubic-bezier(.2,.8,.2,1) .72s backwards}
 @keyframes inDown{from{opacity:0;transform:translateY(-6vh) scale(.96)}to{opacity:1;transform:none}}
 @keyframes inUp{from{opacity:0;transform:translateY(8vh)}to{opacity:1;transform:none}}
+
+/* ---- intro: company logo, then TAP TO START ---- */
+#intro{position:absolute;inset:0;z-index:50;background:#0b0f1a;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:opacity .6s ease-out}
+#intro.gone{opacity:0;pointer-events:none}
+#introLogo{width:min(70vw,50vh*2.6667);height:auto;opacity:0;animation:logoSeq 3.4s ease-in-out .2s forwards}
+@keyframes logoSeq{0%{opacity:0;transform:scale(.96)}25%,70%{opacity:1;transform:none}100%{opacity:0;transform:none}}
+#tap{margin-top:7vh;color:#fff;font-size:min(6vw,3.2vh);letter-spacing:.14em;opacity:0;animation:tapIn 1s ease-out 3.6s forwards,glow 2.6s ease-in-out 4.6s infinite}
+@keyframes tapIn{to{opacity:1}}
+@keyframes glow{0%,100%{text-shadow:0 0 .6vw rgba(255,190,90,.35)}50%{text-shadow:0 0 2.2vw rgba(255,190,90,.95)}}

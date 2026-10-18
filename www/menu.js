@@ -26,21 +26,22 @@
     if (!settings.sound) return;
     try { var c = a.cloneNode(); var p = c.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
   }
-  var musicUnlocked = false;
-  function unlockAudio() {
-    if (musicUnlocked) return;
-    musicUnlocked = true;
+  /* music fades in over 1.5s (called from the TAP TO START tap, so audio is allowed) */
+  function fadeInMusic() {
+    if (!settings.music) return;
+    musicEl.volume = 0;
     startMusic();
+    var steps = 0;
+    var iv = setInterval(function () {
+      steps++;
+      musicEl.volume = Math.min(0.6, 0.6 * steps / 30);
+      if (steps >= 30) clearInterval(iv);
+    }, 50);
   }
-  /* Android needs a touch before audio can start: the first tap starts the menu music */
-  document.addEventListener('touchstart', unlockAudio, { passive: true });
-  document.addEventListener('click', unlockAudio);
 
   /* ---- video background: draw each NEW video frame onto canvas (cover) ---- */
   var vid = $('vid'), cv = $('bg'), ctx = cv.getContext('2d');
   var lastT = -1, shown = false;
-  /* intro starts when the background shows (or after 1.5s at most, so the menu never stays hidden) */
-  setTimeout(function () { document.body.classList.add('go'); }, 1500);
 
   function resize() {
     /* DPR capped at 1: the background is soft anyway, and this saves a lot of GPU/CPU */
@@ -58,7 +59,7 @@
       var sc = Math.max(cv.width / vw, cv.height / vh);
       var w = vw * sc, h = vh * sc;
       try { ctx.drawImage(vid, (cv.width - w) / 2, (cv.height - h) / 2, w, h); } catch (e) {}
-      if (!shown) { shown = true; cv.classList.add('ready'); document.body.classList.add('go'); }
+      if (!shown) { shown = true; cv.classList.add('ready'); }
     }
   }
   function loop() { drawIfNew(); requestAnimationFrame(loop); }
@@ -97,7 +98,7 @@
         var key = b.getAttribute('data-key');
         settings[key] = !settings[key];
         save(); renderToggles(); buzz();
-        if (key === 'music') { if (settings.music) { startMusic(); } else { musicEl.pause(); } }
+        if (key === 'music') { if (settings.music) { fadeInMusic(); } else { musicEl.pause(); } }
       });
     })(tgs[i]);
   }
@@ -106,6 +107,17 @@
   $('btnSettings').addEventListener('click', openSettings);
   $('btnClose').addEventListener('click', closeSettings);
   $('settings').addEventListener('click', function (e) { if (e.target === $('settings')) closeSettings(); });
+
+  /* ---- intro: TAP TO START enters the menu (this tap also unlocks audio) ---- */
+  var entered = false;
+  function enterMenu() {
+    if (entered) return;
+    entered = true;
+    fadeInMusic();
+    document.body.classList.add('go');
+    $('intro').classList.add('gone');
+  }
+  $('intro').addEventListener('click', enterMenu);
 
   /* ---- play ---- */
   function leaveMenuMusic() {
@@ -125,7 +137,7 @@
 
   /* ---- click sound for any other tap (PLAY has its own sound) ---- */
   document.addEventListener('click', function (e) {
-    if (e.target.closest && e.target.closest('#btnPlay')) return;
+    if (e.target.closest && (e.target.closest('#btnPlay') || e.target.closest('#intro'))) return;
     playSfx(clickEl);
   });
 
