@@ -15,10 +15,7 @@ img{-webkit-user-drag:none;pointer-events:none}
 .btn .body{display:block;width:100%;height:auto}
 .btn.play{width:min(84vw,48vh*1.4)}
 .btn.settings{width:min(66vw,38vh*1.4)}
-.btn .ico{position:absolute;left:5%;top:50%;height:54%;width:auto;transform:translateY(-50%)}
-.btn .lbl{position:absolute;left:0;right:0;top:50%;transform:translateY(-54%);text-align:center;color:#fff;letter-spacing:.06em;text-shadow:0 .08em 0 rgba(0,0,0,.45);padding-left:14%}
-.btn.play .lbl{font-size:min(10vw,5.6vh);padding-left:16%}
-.btn.settings .lbl{font-size:min(6.4vw,3.6vh);padding-left:24%}
+.btn .txt{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
 #settings{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
 #panel{width:min(88vw,52vh);background:#1c2236;border:.8vw solid #0a0d18;border-radius:3vw;padding:4vw;display:flex;flex-direction:column;gap:2.4vw;box-shadow:0 1vw 4vw rgba(0,0,0,.6)}
 #panelTitle{align-self:center;color:#fff;background:#f26b1d;padding:1.6vw 8vw;border-radius:5vw;font-size:5.4vw;letter-spacing:.08em;border:.6vw solid #0a0d18}

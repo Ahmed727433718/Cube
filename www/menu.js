@@ -13,6 +13,29 @@
   } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch (e) {} }
 
+  /* ---- audio ---- */
+  var musicEl = new Audio('assets/audio/cube_factory_theme.wav');
+  musicEl.loop = true; musicEl.volume = 0.6; musicEl.preload = 'auto';
+  var doorsEl = new Audio('assets/audio/play_doors_open.wav');
+  var clickEl = new Audio('assets/audio/ui_click.wav');
+  function startMusic() {
+    if (!settings.music) return;
+    try { var p = musicEl.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
+  }
+  function playSfx(a) {
+    if (!settings.sound) return;
+    try { var c = a.cloneNode(); var p = c.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
+  }
+  var musicUnlocked = false;
+  function unlockAudio() {
+    if (musicUnlocked) return;
+    musicUnlocked = true;
+    startMusic();
+  }
+  /* Android needs a touch before audio can start: the first tap starts the menu music */
+  document.addEventListener('touchstart', unlockAudio, { passive: true });
+  document.addEventListener('click', unlockAudio);
+
   /* ---- video background: draw each NEW video frame onto canvas (cover) ---- */
   var vid = $('vid'), cv = $('bg'), ctx = cv.getContext('2d');
   var lastT = -1, shown = false;
@@ -74,6 +97,7 @@
         var key = b.getAttribute('data-key');
         settings[key] = !settings[key];
         save(); renderToggles(); buzz();
+        if (key === 'music') { if (settings.music) { startMusic(); } else { musicEl.pause(); } }
       });
     })(tgs[i]);
   }
@@ -84,7 +108,26 @@
   $('settings').addEventListener('click', function (e) { if (e.target === $('settings')) closeSettings(); });
 
   /* ---- play ---- */
-  $('btnPlay').addEventListener('click', function () { buzz(); toast('Coming soon...'); });
+  function leaveMenuMusic() {
+    var v = musicEl.volume, steps = 0;
+    var iv = setInterval(function () {
+      steps++;
+      musicEl.volume = Math.max(0, v * (1 - steps / 12));
+      if (steps >= 12) { clearInterval(iv); musicEl.pause(); musicEl.volume = v; }
+    }, 50);
+  }
+  $('btnPlay').addEventListener('click', function () {
+    buzz();
+    playSfx(doorsEl);
+    leaveMenuMusic();
+    toast('Coming soon...');
+  });
+
+  /* ---- click sound for any other tap (PLAY has its own sound) ---- */
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('#btnPlay')) return;
+    playSfx(clickEl);
+  });
 
   renderToggles();
   window.__menuReady = true;
