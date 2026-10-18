@@ -13,33 +13,40 @@
   } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch (e) {} }
 
-  /* ---- video background drawn onto canvas (cover) ---- */
+  /* ---- video background: draw each NEW video frame onto canvas (cover) ---- */
   var vid = $('vid'), cv = $('bg'), ctx = cv.getContext('2d');
+  var lastT = -1, shown = false;
+  /* intro starts when the background shows (or after 1.5s at most, so the menu never stays hidden) */
+  setTimeout(function () { document.body.classList.add('go'); }, 1500);
+
   function resize() {
-    var d = Math.min(window.devicePixelRatio || 1, 2);
-    cv.width = Math.max(1, Math.round(window.innerWidth * d));
-    cv.height = Math.max(1, Math.round(window.innerHeight * d));
+    /* DPR capped at 1: the background is soft anyway, and this saves a lot of GPU/CPU */
+    cv.width = Math.max(1, Math.round(window.innerWidth));
+    cv.height = Math.max(1, Math.round(window.innerHeight));
+    lastT = -1;
   }
   window.addEventListener('resize', resize);
   resize();
-  function frame() {
-    try {
-      if (vid.readyState >= 2 && vid.videoWidth > 0) {
-        var vw = vid.videoWidth, vh = vid.videoHeight;
-        var sc = Math.max(cv.width / vw, cv.height / vh);
-        var w = vw * sc, h = vh * sc;
-        ctx.drawImage(vid, (cv.width - w) / 2, (cv.height - h) / 2, w, h);
-      }
-    } catch (e) {}
-    requestAnimationFrame(frame);
+
+  function drawIfNew() {
+    if (vid.readyState >= 2 && vid.videoWidth > 0 && vid.currentTime !== lastT) {
+      lastT = vid.currentTime;
+      var vw = vid.videoWidth, vh = vid.videoHeight;
+      var sc = Math.max(cv.width / vw, cv.height / vh);
+      var w = vw * sc, h = vh * sc;
+      try { ctx.drawImage(vid, (cv.width - w) / 2, (cv.height - h) / 2, w, h); } catch (e) {}
+      if (!shown) { shown = true; cv.classList.add('ready'); document.body.classList.add('go'); }
+    }
   }
-  requestAnimationFrame(frame);
+  function loop() { drawIfNew(); requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
+
   function tryPlay() { try { var p = vid.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
   vid.muted = true;
   tryPlay();
+  vid.addEventListener('loadeddata', tryPlay);
   vid.addEventListener('canplay', tryPlay);
-  document.addEventListener('touchstart', tryPlay, { passive: true });
-  document.addEventListener('click', tryPlay);
+  document.addEventListener('touchstart', tryPlay, { passive: true, once: true });
 
   /* ---- helpers ---- */
   function buzz() {
