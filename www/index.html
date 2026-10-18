@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Cube Factory</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <video id="vid" muted loop playsinline webkit-playsinline preload="auto" autoplay>
+    <source src="assets/bg.mp4" type="video/mp4">
+  </video>
+  <canvas id="bg"></canvas>
+  <div id="shade"></div>
+
+  <div id="menu" class="screen">
+    <img id="logo" src="assets/ui/cube_factory_logo_2400x900.png" alt="Cube Factory" draggable="false">
+    <div id="buttons">
+      <button id="btnPlay" class="btn play" type="button">
+        <img class="body" src="assets/ui/play_body_2400x816.png" alt="" draggable="false">
+        <img class="ico" src="assets/ui/play_icon_512x512.png" alt="" draggable="false">
+        <span class="lbl">PLAY</span>
+      </button>
+      <button id="btnSettings" class="btn settings" type="button">
+        <img class="body" src="assets/ui/settings_body_1800x612.png" alt="" draggable="false">
+        <img class="ico" src="assets/ui/settings_icon_512x512.png" alt="" draggable="false">
+        <span class="lbl">SETTINGS</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="settings" class="hidden">
+    <div id="panel">
+      <div id="panelTitle">SETTINGS</div>
+      <div class="row" data-key="music">
+        <img class="ric" src="assets/ui/icon_music_512x512.png" alt="" draggable="false">
+        <span class="rl">MUSIC</span>
+        <button class="tg" type="button" data-key="music"><img src="assets/ui/toggle_on_400x200.png" alt="" draggable="false"></button>
+      </div>
+      <div class="row" data-key="sound">
+        <img class="ric" src="assets/ui/icon_sound_512x512.png" alt="" draggable="false">
+        <span class="rl">SOUND</span>
+        <button class="tg" type="button" data-key="sound"><img src="assets/ui/toggle_on_400x200.png" alt="" draggable="false"></button>
+      </div>
+      <div class="row" data-key="vibration">
+        <img class="ric" src="assets/ui/icon_vibration_512x512.png" alt="" draggable="false">
+        <span class="rl">VIBRATION</span>
+        <button class="tg" type="button" data-key="vibration"><img src="assets/ui/toggle_on_400x200.png" alt="" draggable="false"></button>
+      </div>
+      <button id="btnClose" class="close" type="button">CLOSE</button>
+    </div>
+  </div>
+
+  <div id="toast" class="hidden"></div>
+</div>
+<script src="menu.js"></script>
+</body>
+</html>
