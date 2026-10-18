@@ -1,8 +1,8 @@
 (function () {
   'use strict';
   var KEY = 'cubefactory_settings_v1';
-  var ON = 'assets/ui/toggle_on_400x200.png';
-  var OFF = 'assets/ui/toggle_off_400x200.png';
+  var ON = 'assets/ui/toggle_on_400x200.webp';
+  var OFF = 'assets/ui/toggle_off_400x200.webp';
   var settings = { music: true, sound: true, vibration: true };
 
   function $(id) { return document.getElementById(id); }
@@ -14,10 +14,10 @@
   function save() { try { localStorage.setItem(KEY, JSON.stringify(settings)); } catch (e) {} }
 
   /* ---- audio ---- */
-  var musicEl = new Audio('assets/audio/cube_factory_theme.wav');
+  var musicEl = new Audio('assets/audio/cube_factory_theme.ogg');
   musicEl.loop = true; musicEl.volume = 0.6; musicEl.preload = 'auto';
-  var doorsEl = new Audio('assets/audio/play_doors_open.wav');
-  var clickEl = new Audio('assets/audio/ui_click.wav');
+  var doorsEl = new Audio('assets/audio/play_doors_open.ogg');
+  var clickEl = new Audio('assets/audio/ui_click.ogg');
   function startMusic() {
     if (!settings.music) return;
     try { var p = musicEl.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
