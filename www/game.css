@@ -1,0 +1,95 @@
+/* ===== game screen ===== */
+#game{position:absolute;inset:0;z-index:40;overflow:hidden;opacity:0;transition:opacity .45s ease-out;background:#0b0f1a}
+#game.show{opacity:1}
+#gbg{position:absolute;inset:0;background:#0b0f1a url(assets/game/game_bg_720x1280.webp) center/cover no-repeat}
+#stage{position:absolute;left:0;top:0;width:720px;transform-origin:0 0}
+#game img{-webkit-user-drag:none;pointer-events:none;display:block}
+#game .abs{position:absolute}
+
+/* HUD */
+#hud{position:absolute;left:0;top:14px;width:720px;height:96px}
+.gbtn{position:absolute;top:8px;width:78px;height:78px;border:4px solid #0a0d18;border-radius:20px;background:#1c2236;color:#f3e6c8;font-family:inherit;font-size:34px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;box-shadow:0 4px 0 #0a0d18;transition:transform .12s ease-out}
+.gbtn:active{transform:scale(.92)}
+#gBack{left:18px}
+#gOdds{right:18px;font-size:26px}
+#cashBox{position:absolute;left:112px;right:112px;top:8px;height:78px;background:#10152a;border:4px solid #0a0d18;border-radius:39px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 4px 0 #0a0d18}
+#cashBox img{width:58px;height:58px}
+#cashText{color:#fff;font-size:40px;letter-spacing:.02em;text-shadow:0 3px 0 rgba(0,0,0,.5);transition:transform .15s}
+#cashText.bump{transform:scale(1.12)}
+#lvBadge{position:absolute;left:50%;top:98px;transform:translateX(-50%);padding:2px 22px;border-radius:14px;background:#f26b1d;border:3px solid #0a0d18;color:#fff;font-size:22px;letter-spacing:.08em}
+
+/* scene */
+#gscene{position:absolute;left:0;top:130px;width:720px;height:830px;transform-origin:50% 0}
+#gfactory{position:absolute;left:53px;top:0;width:1024px;height:1024px;transform:scale(.6);transform-origin:0 0}
+#gfactory img{position:absolute}
+#gfactory.off{filter:grayscale(1) brightness(.45)}
+#gfactory.off .lamp{opacity:0}
+.lamp{animation:lampPulse 1.8s ease-in-out infinite}
+@keyframes lampPulse{0%,100%{opacity:.75}50%{opacity:1}}
+.gear{animation:spin var(--gdur,8s) linear infinite}
+.gear.rev{animation-direction:reverse}
+#gfactory.off .gear{animation-play-state:paused}
+@keyframes spin{to{transform:rotate(360deg)}}
+#gflap{transform-origin:50% 23px}
+
+#gbelt{position:absolute;left:150px;top:600px;width:330px;height:96px;background:url(assets/game/conveyor_belt_tile_256x128.webp) 0 0/192px 96px repeat-x;animation:beltMove var(--bdur,1.28s) linear infinite}
+#gbelt.off{animation-play-state:paused;filter:grayscale(1) brightness(.5)}
+@keyframes beltMove{to{background-position-x:192px}}
+.roller{position:absolute;width:96px;height:96px;background:url(assets/game/conveyor_rollers_512x128.webp) 0 0/384px 96px no-repeat;animation:spin var(--rdur,2.4s) linear infinite}
+#gbelt.off~.roller{animation-play-state:paused}
+#gcollector{position:absolute;left:464px;top:560px;width:512px;height:512px;transform:scale(.5);transform-origin:0 0}
+#gcollector.off{filter:grayscale(1) brightness(.5)}
+#gcollector img{position:absolute}
+#glid{transform-origin:256px 80px}
+
+#gcubes{position:absolute;left:0;top:0;width:720px;height:830px;pointer-events:none}
+.cube{position:absolute;left:0;top:0;width:148px;height:148px;pointer-events:auto;will-change:transform}
+.cube img{width:148px;height:148px}
+.cube.glow img{filter:drop-shadow(0 0 14px var(--gc,#fff))}
+.cube.ult img{animation:rainbow 2.2s linear infinite}
+@keyframes rainbow{to{filter:hue-rotate(360deg) drop-shadow(0 0 14px #fff)}}
+.ftxt{position:absolute;left:0;top:0;width:260px;text-align:center;font-size:34px;letter-spacing:.03em;text-shadow:0 3px 0 rgba(0,0,0,.6),0 0 10px rgba(0,0,0,.5);pointer-events:none;animation:floatUp 1.1s ease-out forwards;white-space:nowrap}
+.ftxt small{display:block;font-size:20px;letter-spacing:.12em}
+@keyframes floatUp{0%{opacity:0;transform:translate(var(--fx),var(--fy)) scale(.7)}15%{opacity:1;transform:translate(var(--fx),calc(var(--fy) - 14px)) scale(1.1)}100%{opacity:0;transform:translate(var(--fx),calc(var(--fy) - 90px)) scale(1)}}
+#gflash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:5}
+#gflash.go{animation:flash .5s ease-out}
+@keyframes flash{0%{opacity:.55}100%{opacity:0}}
+#ghint{position:absolute;left:0;width:720px;top:520px;text-align:center;color:#f3e6c8;font-size:30px;letter-spacing:.08em;text-shadow:0 3px 0 rgba(0,0,0,.6)}
+
+/* bottom panel */
+#gpanel{position:absolute;left:20px;width:680px}
+.gbig{display:block;width:100%;border:5px solid #0a0d18;border-radius:28px;background:#f26b1d;color:#fff;font-family:inherit;font-size:40px;letter-spacing:.06em;padding:30px 20px;box-shadow:0 8px 0 #0a0d18;transition:transform .12s ease-out;text-shadow:0 3px 0 rgba(0,0,0,.45)}
+.gbig:active{transform:translateY(4px) scale(.98);box-shadow:0 4px 0 #0a0d18}
+.gbig.dis{background:#4a4f63;color:#aab}
+.gcap{margin-top:18px;text-align:center;color:#f3e6c8;font-size:26px;letter-spacing:.04em;text-shadow:0 2px 0 rgba(0,0,0,.6)}
+.urow{display:flex;align-items:center;gap:16px;background:rgba(16,21,42,.92);border:4px solid #0a0d18;border-radius:24px;padding:14px 16px;margin-bottom:12px}
+.uic{width:76px;height:76px;border-radius:18px;background:#1c2236;display:flex;align-items:center;justify-content:center;flex:none}
+.uic svg,.uic img{width:52px;height:52px}
+.utx{flex:1;min-width:0}
+.ut{color:#fff;font-size:30px;letter-spacing:.06em}
+.us{color:#9fb0d0;font-size:22px;margin-top:2px;font-family:Arial,sans-serif;font-weight:bold}
+.ubar{height:12px;border-radius:6px;background:#0a0d18;margin-top:8px;overflow:hidden}
+.ubar i{display:block;height:100%;background:#f2a31d;border-radius:6px}
+.ulv{color:#f3e6c8;font-size:22px;margin-top:4px}
+.ubuy{flex:none;min-width:190px;border:4px solid #0a0d18;border-radius:20px;background:#2fae4c;color:#fff;font-family:inherit;font-size:30px;padding:18px 10px;box-shadow:0 5px 0 #0a0d18;text-shadow:0 2px 0 rgba(0,0,0,.45);transition:transform .12s ease-out}
+.ubuy:active{transform:translateY(3px) scale(.97);box-shadow:0 2px 0 #0a0d18}
+.ubuy.dis{background:#4a4f63;color:#aab}
+.ubuy.max{background:#f2a31d;color:#3a2600;text-shadow:none}
+.shake{animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.nextf{margin-top:2px;text-align:center;color:#9fb0d0;font-size:22px;letter-spacing:.06em;background:rgba(10,13,24,.7);border-radius:18px;padding:12px}
+
+/* odds modal */
+#gOddsPanel{position:absolute;inset:0;z-index:8;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center}
+#gOddsPanel.hidden{display:none}
+#oddsBox{width:620px;background:#1c2236;border:6px solid #0a0d18;border-radius:30px;padding:26px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+#oddsBox h3{margin:0 0 6px;text-align:center;color:#fff;font-size:36px;letter-spacing:.08em;font-weight:normal}
+#oddsSub{text-align:center;color:#9fb0d0;font-size:22px;margin-bottom:14px;font-family:Arial,sans-serif;font-weight:bold}
+.orow{display:flex;align-items:center;gap:14px;background:#10152a;border-radius:16px;padding:8px 14px;margin-bottom:8px}
+.orow img{width:54px;height:54px;object-fit:contain}
+.orow .on{flex:1;font-size:26px;letter-spacing:.05em}
+.orow .op{font-size:26px;color:#fff;font-family:Arial,sans-serif;font-weight:bold}
+.orow.lock{opacity:.55}
+.orow.lock .op{font-size:20px;color:#9fb0d0}
+#oddsClose{display:block;margin:14px auto 0;border:5px solid #0a0d18;border-radius:20px;background:#f26b1d;color:#fff;font-family:inherit;font-size:30px;padding:14px 60px;letter-spacing:.08em;transition:transform .12s ease-out}
+#oddsClose:active{transform:scale(.94)}

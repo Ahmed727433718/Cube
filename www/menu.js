@@ -132,7 +132,7 @@
     buzz();
     playSfx(doorsEl);
     leaveMenuMusic();
-    toast('Coming soon...');
+    setTimeout(function () { if (window.CubeGame) { window.CubeGame.show(); } }, 450);
   });
 
   /* ---- click sound for any other tap (PLAY has its own sound) ---- */
@@ -142,5 +142,6 @@
   });
 
   renderToggles();
+  window.__menuBack = fadeInMusic;
   window.__menuReady = true;
 })();

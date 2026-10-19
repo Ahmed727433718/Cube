@@ -1,0 +1,105 @@
+{
+  "notes": "All coordinates are in pixels of the original image sizes. Rotate gears/rollers around the image centre. Scale values are relative to the original PNG.",
+  "factory_body_1024x1024": {
+    "gear_a": {
+      "file": "factory_gear_a.png",
+      "center": [
+        205,
+        500
+      ],
+      "scale": 0.47,
+      "rotate": "clockwise"
+    },
+    "gear_b": {
+      "file": "factory_gear_b.png",
+      "center": [
+        819,
+        500
+      ],
+      "scale": 0.47,
+      "rotate": "counter-clockwise"
+    },
+    "press": {
+      "file": "factory_press_512x512.png",
+      "scale": 0.7,
+      "top_left_up": [
+        333,
+        190
+      ],
+      "top_left_down": [
+        333,
+        330
+      ],
+      "travel_px": 140,
+      "note": "foot plate touches the anvil (y~676) at the down position"
+    },
+    "flap": {
+      "file": "factory_flap_512x256.png",
+      "top_left": [
+        256,
+        724
+      ],
+      "hinge_axis": "top edge of the image (rotate/scale around y=724+23)",
+      "opening": [
+        256,
+        730,
+        768,
+        986
+      ]
+    },
+    "lamps": {
+      "file": "factory_lamp_on_128x128.png",
+      "centers": [
+        [
+          150,
+          150
+        ],
+        [
+          874,
+          150
+        ]
+      ],
+      "top_lefts": [
+        [
+          86,
+          86
+        ],
+        [
+          810,
+          86
+        ]
+      ]
+    }
+  },
+  "collector": {
+    "body": "collector_body_512x512.png",
+    "lid": "collector_lid_512x256.png",
+    "lid_closed_top_left_in_body": [
+      0,
+      10
+    ],
+    "lid_hinge_in_body": [
+      256,
+      90
+    ],
+    "note": "lid front edge matches the mouth front edge (y=210) when closed; open it by rotating/squashing around the hinge at its back edge"
+  },
+  "cubes": {
+    "files": "cube_01_white .. cube_09_rubik",
+    "all_same_box": [
+      100,
+      80,
+      412,
+      476
+    ],
+    "bottom_center": [
+      256,
+      470
+    ],
+    "note": "front face bottom edge sits at y=470; use the same anchor for every cube"
+  },
+  "conveyor": {
+    "belt_tile": "conveyor_belt_tile_256x128.png (tile horizontally, seamless, 64 px slat period, scroll left/right)",
+    "rollers": "conveyor_rollers_512x128.png = 4 discs, each 128x128, centres (64+128*i, 64); rotate each disc around its own centre"
+  }
+}
