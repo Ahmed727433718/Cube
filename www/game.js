@@ -437,6 +437,12 @@
     if (window.__menuBack) window.__menuBack();
   }
 
+  function devAdd(n) {
+    if (!root) return;
+    state.cash += n; save();
+    renderHud(); lastAfford = ""; refreshAffordability();
+  }
+
   window.addEventListener('resize', layout);
   document.addEventListener('visibilitychange', function () { if (document.hidden && root) save(); });
   window.addEventListener('pagehide', function () { if (root) save(); });
@@ -444,6 +450,7 @@
   window.CubeGame = {
     show: show,
     hide: hide,
+    dev: devAdd,
     _test: { state: state, odds: odds, tiers: TIERS, factoryLevel: factoryLevel, interval: interval, cost: upgradeCost, roll: rollTier }
   };
 })();
